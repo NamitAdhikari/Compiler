@@ -1,3 +1,5 @@
+
+  
 import copy
 
 
@@ -182,19 +184,19 @@ if __name__ == "__main__":
     print(f"Breaking Grammar\n{br_grammar}\n\n")
 
     print(f"LF Grammar = \n{lf_grammar}\n\n")
-    # for key, rules in br_grammar.items():
-    #     print(key, "-> ", end="")
-    #     for r in range(len(rules)):
-    #         test_str = ""
-    #         for x in rules[r]:
-    #             test_str += x
-    #         if r == 0:
-    #             print(test_str, end=" ")
-    #         else:
-    #             print("|", test_str, end=" ")
+    for key, rules in br_grammar.items():
+        print(key, "-> ", end="")
+        for r in range(len(rules)):
+            test_str = ""
+            for x in rules[r]:
+                test_str += x
+            if r == 0:
+                print(test_str, end=" ")
+            else:
+                print("|", test_str, end=" ")
 
-    #     print("")
-    # print("\n")
+        print("")
+    print("\n")
 
     first_sets = {}
     for i in br_grammar:
@@ -215,3 +217,4 @@ if __name__ == "__main__":
     terminals = get_terminals(lf_grammar, first_sets, follow_sets)   
     print(f"\nTerminals = {terminals}\n")
     print(f"Non Terminals = {non_terminals}\n")
+
