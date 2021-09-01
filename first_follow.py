@@ -1,3 +1,5 @@
+
+  
 import copy
 
 
@@ -26,7 +28,7 @@ def break_grammar(grammar):
     return br_grammar
 
 
-def first(grammar, term, prev_term=None):
+def first(grammar, term):
     a = []
     if term not in grammar:
         return [term]
@@ -34,7 +36,17 @@ def first(grammar, term, prev_term=None):
         if i[0] not in grammar:
             a.append(i[0])
         elif i[0] in grammar:
-            a += first(grammar, i[0])
+            fr = []
+            for j in i:
+                fr += first(grammar, j)
+                if "\u03B5" in fr:
+                    if i.index(j) == (len(i)-1):
+                        continue
+                    else:
+                        fr.remove("\u03B5")
+                else:
+                    break
+            a += fr
     return a
 
 
@@ -172,19 +184,19 @@ if __name__ == "__main__":
     print(f"Breaking Grammar\n{br_grammar}\n\n")
 
     print(f"LF Grammar = \n{lf_grammar}\n\n")
-    # for key, rules in br_grammar.items():
-    #     print(key, "-> ", end="")
-    #     for r in range(len(rules)):
-    #         test_str = ""
-    #         for x in rules[r]:
-    #             test_str += x
-    #         if r == 0:
-    #             print(test_str, end=" ")
-    #         else:
-    #             print("|", test_str, end=" ")
+    for key, rules in br_grammar.items():
+        print(key, "-> ", end="")
+        for r in range(len(rules)):
+            test_str = ""
+            for x in rules[r]:
+                test_str += x
+            if r == 0:
+                print(test_str, end=" ")
+            else:
+                print("|", test_str, end=" ")
 
-    #     print("")
-    # print("\n")
+        print("")
+    print("\n")
 
     first_sets = {}
     for i in br_grammar:
@@ -205,3 +217,4 @@ if __name__ == "__main__":
     terminals = get_terminals(lf_grammar, first_sets, follow_sets)   
     print(f"\nTerminals = {terminals}\n")
     print(f"Non Terminals = {non_terminals}\n")
+
