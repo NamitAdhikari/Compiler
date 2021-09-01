@@ -26,7 +26,7 @@ def break_grammar(grammar):
     return br_grammar
 
 
-def first(grammar, term, prev_term=None):
+def first(grammar, term):
     a = []
     if term not in grammar:
         return [term]
@@ -34,7 +34,17 @@ def first(grammar, term, prev_term=None):
         if i[0] not in grammar:
             a.append(i[0])
         elif i[0] in grammar:
-            a += first(grammar, i[0])
+            fr = []
+            for j in i:
+                fr += first(grammar, j)
+                if "\u03B5" in fr:
+                    if i.index(j) == (len(i)-1):
+                        continue
+                    else:
+                        fr.remove("\u03B5")
+                else:
+                    break
+            a += fr
     return a
 
 

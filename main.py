@@ -150,6 +150,13 @@ if __name__ == "__main__":
     #     "A": ["Ac", "Sd", "\u03B5"]
     # }
 
+    # grammar = {
+    #     "S": ["ABC"],
+    #     "A": ["c", "\u03B5"],
+    #     "B": ["d", "\u03B5"],
+    #     "C": ["e"]
+    # }
+
     grammar = open("grammar", "r").read()
     grammar = gr_mod(grammar)
 

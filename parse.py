@@ -77,6 +77,7 @@ def parse(user_input, start_symbol, parsing_table):
         parse_t.add_row([stack[0], user_input, 'Accept'])
         print("")
         print(parse_t.draw(), end="\n\n")
+        print("String accepted\n")
     else:
         print(parse_t.draw(), end="\n\n")
         print('String not accepted\n')

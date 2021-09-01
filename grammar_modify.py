@@ -13,7 +13,6 @@ def gr_mod(grammar):
                     rhs.append(x.strip())
             new_gram[lhs] = rhs
 
-    print(new_gram)
     return new_gram
 
 
