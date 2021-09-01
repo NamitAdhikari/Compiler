@@ -14,7 +14,7 @@ def main(grammar):
 
     start_symbol = next(iter(grammar))
 
-    lr_grammar = left_recursion(grammar)
+    lr_grammar = removeLR(grammar)
     print("After Removing Left Recursion:")
     for key, rules in lr_grammar.items():
         print(key, "-> ", end="")
@@ -75,8 +75,8 @@ def main(grammar):
 if __name__ == "__main__":
     
     from grammar_modify import gr_mod
-    from left_recursion__ import left_recursion
     from left_factoring import left_factoring
+    from indirectLR import removeLR
     from first_follow import break_grammar, first, follow, get_terminals
     from parsing_table import parsing_table
     from parse import parse
@@ -95,10 +95,10 @@ if __name__ == "__main__":
     #     "R": ["L"]
     # }
 
-    grammar = {
-        "S": ["iEtSeS", "iEtS"],
-        "E": ["b"]
-    }
+    # grammar = {
+    #     "S": ["iEtSeS", "iEtS"],
+    #     "E": ["b"]
+    # }
 
     # grammar = {
     #     "S": ["A"],
@@ -109,12 +109,12 @@ if __name__ == "__main__":
     #     "C": ["g"]
     # }
 
-    # grammar = {
-    #     "S": ["A"],
-    #     "A": ["aB", "aC", "Ad", "Ae"],
-    #     "B": ["bBc", "f"],
-    #     "C": ["g"]
-    # }
+    grammar = {
+        "S": ["A"],
+        "A": ["aB", "aC", "Ad", "Ae"],
+        "B": ["bBc", "f"],
+        "C": ["g"]
+    }
 
     # grammar = {
     #     "E": ["T", "T-E"],
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     #     "A": ["Ac", "Sd", "\u03B5"]
     # }
 
-    # grammar = open("grammar", "r").read()
-    # grammar = gr_mod(grammar)
+    grammar = open("grammar", "r").read()
+    grammar = gr_mod(grammar)
 
     main(grammar)
