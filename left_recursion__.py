@@ -9,48 +9,57 @@ def left_recursion(grammar):
         subfix = []
         item = grammar[key]
         for prod in item:
+            indx = 0
             try:
                 if prod[1] == "'":
-                    check = prod[:2]
-                else:
-                    check = prod[0]
+                    indx = 1
             except IndexError:
-                check = prod[0]
+                pass
+            check = prod[:indx+1]
 
             if key == check:
-                #				print(key, prod, item)
+                #print(key, check)
                 flag = 1
                 pos = pos + 1
-                subfix.append(prod[1:len(prod)])
-            #				print(flag, subfix, pos)
+                subfix.append(prod[indx+1:])
+            #print(len(subfix))
             if flag == 1:
-                #				print(key, prod, item)
-                # print(item[:item.index(prod)-1], item[pos:len(item)][0])
-                for po in item[:item.index(prod) - 1]:
-                    #					print(po)
-                    #					print(item[:item.index(prod)-1])
-                    # print("set_item_pos = ", set([item[pos:len(item)][0]+key+"'"]))
+                #print(item, prod)
+                it_list = [x for x in item if x not in [prod, '\u03B5']]
+                #print(it_list)
+                #for po in item[:item.index(prod)-1]:
+                for po in it_list:
+                    #print(po, pos)
                     new_grammar[key] = set(new_grammar[key])
-                    #					print(f"new_grammar[key] 1 = {new_grammar[key]}")
-                    if po[0] not in new_grammar:
-                        new_grammar[key].add(po + key + "'")
+                    check = po[0]
+                    try:
+                        if po[1] == "'":
+                            check += po[1]
+                    except IndexError:
+                        pass
+                    #print("check", check)
+                    if check not in new_grammar:
+                        new_grammar[key].add(po+key+"'")
                     else:
-                        if po[0] != key:
-                            new_grammar[key].add(
-                                item[pos:len(item)][0] + key + "'")
+                        #	print(check, key)
+                        if check != key:
+                            #new_grammar[key].add(item[pos:len(item)][0]+key+"'")
+                            new_grammar[key].add(check+key+"'")
                         else:
                             try:
-                                new_grammar[key].add(
-                                    item[pos + 1:len(item)][0] + key + "'")
+                                if item[pos+1:len(item)][0][0] != key:
+                                    new_grammar[key].add(item[pos+1:len(item)][0]+key+"'")
                             except IndexError:
-                                new_grammar[key].add(
-                                    item[pos:len(item)][0] + key + "'")
-                #					print(f"new_grammar[key] 2 = {new_grammar[key]}")
+                                if item[pos:len(item)][0][0] != key:
+                                    new_grammar[key].add(item[pos:len(item)][0]+key+"'")
+                #print(new_grammar[key])
                 new_grammar[key] = list(new_grammar[key])
-                new_grammar.update(
-                    {key + "'": [x + key + "'" for x in subfix]})
-                new_grammar[f"{key}'"].append(f'\u03B5')
-                flag = pos = 0
+                if subfix != ['']:
+                    new_grammar.update({key+"'":[x+key+"'" for x in subfix]})
+                    new_grammar[f"{key}'"].append(f'\u03B5')
+                else:
+                    new_grammar[f"{key}'"] = [f'\u03B5']
+                flag=pos=0
     for key in grammar:
         if not len(new_grammar[key]):
             new_grammar[key] = grammar[key]
@@ -58,33 +67,39 @@ def left_recursion(grammar):
     return new_grammar
 
 
+
 if __name__ == "__main__":
-    # grammar = {"A":["ABd","Aa","a"],"B":["Be","b"]}
-    # grammar = {"S": ["iEtSeS", "iEtS"], "E": ["b"]}
-    # grammar = {"S": ["(L)", "a"], "L": ["L,S", "S"]}
-    # grammar = {"E":["E+T","T"], "T":["T*F","F"], "F":["(E)","i"]}
-    grammar = {
-        "S": ["A"],
-        "A": ["aB", "aC", "Ad", "Ae"],
-        "B": ["bBc", "f"],
-        "C": ["g"]
-    }
+    #grammar = {"A":["ABd","Aa","a"],"B":["Be","b"]}
+    #grammar = {"S": ["iEtSeS", "iEtS"], "E": ["b"]}
+    #grammar = {"S": ["(L)", "a"], "L": ["L,S", "S"]}
+    #grammar = {"E":["E+T","T"], "T":["T*F","F"], "F":["(E)","i"]}
+    # grammar = {
+    #     "S": ["A"],
+    #     "A": ["aB", "aC", "Ad", "Ae"],
+    #     "B": ["bBc", "f"],
+    #     "C": ["g"]
+    # }
+
+    # grammar = {
+    #     "S": ["aAc", "bB"],
+    #     "A": ["Abc", "Abd", "e"],
+    #     "B": ["f", "g"],
+    #     "C": ["h", "i"]
+    # }
 
     grammar = {
-        "S": ["aAc", "bB"],
-        "A": ["Abc", "Abd", "e"],
-        "B": ["f", "g"],
-        "C": ["h", "i"]
+        "E": ["TE'"],
+        "E'": ["E", "e"],
+        "T": ["F", "T'"],
+        "T'": ["T", "e"],
+        "F": ["PF'"],
+        "F'": ["*F'", "e"],
+        "P": ["(E)", "a", "b", "e"]
     }
 
     # grammar = {
-    #     "E": ["TE'"],
-    #     "E'": ["E", "e"],
-    #     "T": ["F", "T'"],
-    #     "T'": ["T", "e"],
-    #     "F": ["PF'"],
-    #     "F'": ["*F'", "e"],
-    #     "P": ["(E)", "a", "b", "e"]
+    #  	"S": ["Aa", "b"],
+    # 	"A": ["Ac", "Sd", "\u03B5"]
     # }
 
     print("\nGrammar:")
@@ -105,6 +120,7 @@ if __name__ == "__main__":
     #     "B": ["f", "g"],
     #     "C": ["h", "i"]
     # }
+
 
     lr_grammar = left_recursion(grammar)
 
