@@ -3,6 +3,7 @@ from first_follow import break_grammar
 
 from left_recursion__ import left_recursion
 
+
 def checkForIndirect(grammar, a, ai):
     if ai not in grammar:
         return False
@@ -61,7 +62,7 @@ def removeLR(grammar):
 
     key_list = []
     for i in range(0, len(grammar), 1):
-        ai = list(grammar.keys())[len(grammar)-i-1]
+        ai = list(grammar.keys())[len(grammar) - i - 1]
         key_list.append(ai)
         for j in range(0, len(grammar[ai])):
             #  print(grammar[ai], j)
@@ -115,7 +116,7 @@ if __name__ == "__main__":
         "P": ["(E)", "a", "b", "e"]
     }
 
-    #gram = {"S": ["iEtSeS", "iEtS"], "E": ["b"]}
+    # gram = {"S": ["iEtSeS", "iEtS"], "E": ["b"]}
 
     print("gram\n", gram)
 
