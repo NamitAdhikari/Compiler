@@ -27,28 +27,15 @@ def break_grammar(grammar):
 
 
 def first(grammar, term, prev_term=None):
-    a = {}
-    if term not in a:
-        a[term] = []
+    a = []
     if term not in grammar:
         return [term]
     for i in grammar[term]:
         if i[0] not in grammar:
-            a[term].append(i[0])
+            a.append(i[0])
         elif i[0] in grammar:
-#            print(term, i)
- #           print(grammar)
-            cp_grammar = copy.deepcopy(grammar)
-            if prev_term == i[0]:
-                if prev_term in a:
-                    a[term] += a[prev_term]
-                    continue
-                else:
-                    cp_grammar[term].pop(cp_grammar[term].index(i))
-            #print(cp_grammar)
-            a[term] += first(cp_grammar, i[0], term)
-    #print(a)
-    return a[term]
+            a += first(grammar, i[0])
+    return a
 
 
 def follow(grammar, term, follow_sets):
@@ -81,15 +68,17 @@ def follow(grammar, term, follow_sets):
                                 follow_sets[term] = follow_sets[term] | follow(gram, nt, follow_sets)
                     else:
                         le = len(following_str)
+                        follow_2 = set(first(grammar, following_str[0]))
                         if le == 1:
-                            follow_2 = set(first(grammar, following_str[0]))
                             if '\u03B5' in follow_2:
                                 follow_sets[term] = follow_sets[term] | follow_2 - {'\u03B5'}
-                                follow_sets[term] = follow_sets[term] | follow(grammar, following_str[0], follow_sets)
+                                if nt == term:
+                                    continue
+
+                                follow_sets[term] = follow_sets[term] | follow(grammar, nt, follow_sets)
                             else:
                                 follow_sets[term] = follow_sets[term] | follow_2
                         elif le > 1:
-                            follow_2 = set(first(grammar, following_str[0]))
                             if '\u03B5' in follow_2:
                                 follow_sets[term] = follow_sets[term] | follow_2 - {'\u03B5'}
                                 follow_sets[term] = follow_sets[term] | follow(grammar, following_str[1], follow_sets)
