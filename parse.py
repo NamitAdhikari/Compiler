@@ -47,12 +47,19 @@ def parse(user_input, start_symbol, parsing_table):
             if value[0] != '\u03B5':
                 value = value[::-1]
                 stack.pop()
-                for el in value:
-                    bla = value.index(el) - 1
-                    if value[bla] == "'":
-                        value.pop(bla)
-                        value.pop(value.index(el))
-                        value.insert(bla, f"{el}'")
+                el = len(value)-1
+                while True:
+                    if "'" not in value:
+                        break
+                    if value[el] == "'":
+                        tmp = el
+                        da = value.pop(el)
+                        el += 1
+                        nt = value.pop(el-1)
+                        el += 1
+                        value.insert(tmp, f"{nt}{da}")
+                        el -= 1
+                    el -= 1
 
 
                 for element in value:
