@@ -58,7 +58,7 @@ def main(grammar):
 
     for i in br_grammar:
         follow_sets[i] = follow_sets[i] | follow(br_grammar, i, follow_sets)
-        print(f"Follow({i}):\t", follow_sets[i])
+        print(f"Follow({i}):\t", list(follow_sets[i]))
 
     terminals = get_terminals(lf_grammar, first_sets, follow_sets)   
     print(f"\nTerminals = {terminals}\n")
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     # }
 
     # grammar = {
-    #     "S": ["iEtSeS", "iEtS"],
+    #     "S": ["iEtSeS", "iEtS", "a"],
     #     "E": ["b"]
     # }
 
@@ -109,12 +109,12 @@ if __name__ == "__main__":
     #     "C": ["g"]
     # }
 
-    grammar = {
-        "S": ["A"],
-        "A": ["aB", "aC", "Ad", "Ae"],
-        "B": ["bBc", "f"],
-        "C": ["g"]
-    }
+    # grammar = {
+    #     "S": ["A"],
+    #     "A": ["aB", "aC", "Ad", "Ae"],
+    #     "B": ["bBc", "f"],
+    #     "C": ["g"]
+    # }
 
     # grammar = {
     #     "E": ["T", "T-E"],
