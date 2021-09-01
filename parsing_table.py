@@ -39,13 +39,6 @@ def parsing_table (gram, gram_org, terminals, first_sets, follow_sets):
                             k += 1
 
                         temp_gram[i] = tg
-                        try:
-                            if [i] in gram[tg[0][0]]:
-                                gr = copy.deepcopy(gram)
-                                temp_gram[i] = gr[i]
-                        except KeyError:
-                            pass 
-                    #print(temp_gram)
 
                     fr = list(set(first(temp_gram, i)))
 #                    print(f"{i} ->\t{fr}")
@@ -90,25 +83,6 @@ def parsing_table (gram, gram_org, terminals, first_sets, follow_sets):
         ptable.add_row(ro_list)
     
     print(ptable.draw())
-
-    # print("\n\n\n")
-    # terminals = terminals - {'\u03B5'}
-    # toprint = f'{"": <10}'
-    # for i in terminals:
-    #     toprint+= f'|{i: <20}'
-    # print(toprint)
-    # for i in gram_org:
-    #     toprint = f'{i: <10}'
-    #     for j in terminals:
-    #         if parsing_table[(i,j)] != ['']:
-    #             if len(parsing_table[(i, j)]) > 1:
-    #                 toprint+=f'| {i+"->"+str(parsing_table[(i,j)]): <5}'
-    #             else:
-    #                 toprint+=f'| {i+"->"+str(parsing_table[(i,j)][0]): <20}'
-    #         else:
-    #             toprint+=f'{"|": <20}'
-    #     print(f'{"-":-<110}')
-    #     print(toprint)
 
     return parsing_table
 
