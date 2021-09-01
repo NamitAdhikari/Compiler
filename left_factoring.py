@@ -22,7 +22,6 @@ def left_factoring(grammar):
     
     new_grammar = dict()
     non_terminals = set()
-#    terminals = set()
     for key in grammar:
         common = []
         
@@ -43,8 +42,6 @@ def left_factoring(grammar):
             if new_alph in grammar:
                 new_alph = f"{new_alph}'"
             for i in common:
-                #new_alph = f"{key}'"
-#                print(key + "->" + i + new_alph)
 
                 if key not in new_grammar:
                     new_grammar[key] = []
@@ -57,52 +54,37 @@ def left_factoring(grammar):
                     if k.startswith(i):
                         index.append(k)
                 
-#                print(new_alph + "->", end="")
+                string_var = []
+                for x in index:
+                    string_var.append(x.replace(i, ""))
+                if "" in string_var:
+                    string_var.pop(string_var.index(""))
+                    string_var.append('\u03B5')
 
-                string_var = ""
-                for j in index[:-1]:
-                    string = j.replace(i, "", 1) + "|"
-                    if string == "|":
-#                        print("\u03B5", "|", end="")
-                        string_var += f"\u03B5 |"
-                    else:
-#                        print(string, end="")
-                        string_var += string
-                
-                string = index[-1].replace(i, "", 1) + "|"
-                if string == "|":
-#                    print("\u03B5", "|", end="")
-                    string_var += f"\u03B5 |"
-                else:
-#                    print(string, end="")
-                    string_var += string
-#                print("")
-                #print(f"string_var = {string_var}")
                 if new_alph not in new_grammar:
-                    new_grammar[new_alph] = [x for x in string_var.rstrip("|").rstrip().split('|')]
+                    new_grammar[new_alph] = [x for x in string_var]
                 else:
-                    new_grammar[new_alph] = [new_grammar[new_alph], [x for x in string_var.rstrip("|").rstrip().split('|')]]
+                    new_grammar[new_alph] = [new_grammar[new_alph], [x for x in string_var]]
 
                 non_terminals.add(new_alph)
                 new_alph = f"{new_alph}'"
 
-    #print(new_grammar)
-    #print(f"\n\n{new_grammar}\n")
+
     return new_grammar, non_terminals
 
 
 if __name__ == "__main__":
 
-    #grammar = {"S": ["iEtSeS", "iEtS", "a"], "E": ['b']}
+    grammar = {"S": ["iEtSeS", "iEtS", "a"], "E": ['b']}
     #grammar = {"A": ["aAB", "aBc", "aAc"]}
     #grammar = {"S": ["A"], "A": ["aB", "aC", "Ad", "Ae"], "B": ["bBc", "f"], "C": ["g"]}
-    grammar = {
-        "S": ["A"],
-        "A": ["aBA'", "aCA'"],
-        "B": ["bBc", "f"],
-        "C": ["g"],
-        "A'": ["dA'", "eA'", "\u03B5"]
-    }
+    # grammar = {
+    #     "S": ["A"],
+    #     "A": ["aBA'", "aCA'"],
+    #     "B": ["bBc", "f"],
+    #     "C": ["g"],
+    #     "A'": ["dA'", "eA'", "\u03B5"]
+    # }
 
     print("")
     for key, rules in grammar.items():

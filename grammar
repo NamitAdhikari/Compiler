@@ -1,4 +1,2 @@
-S -> A
-A -> aB | aC | Ad | Ae
-B -> bBc | f
-C -> g
+S -> iEtS | iEtSeS
+E -> b
